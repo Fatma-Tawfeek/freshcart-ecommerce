@@ -1,1 +1,119 @@
-<p>register works!</p>
+<section>
+  <div class="container bg-main-light p-5 my-5 rounded shadow-sm">
+    <div class="row">
+      <h1 class="text-main fs-3 fw-bolder text-center">Register Now</h1>
+      <form [formGroup]="registerForm" (ngSubmit)="register()">
+        <div class="my-2">
+          <label for="name" class="mb-1"
+            >Name: <span class="text-danger">*</span></label
+          >
+          <input
+            type="text"
+            class="form-control"
+            formControlName="name"
+            placeholder="ex: John Doe"
+          />
+          @if(registerForm.get('name')?.errors &&
+          registerForm.get('name')?.touched){
+          <div class="alert alert-danger my-2 p-2 fs-6 fw-bold rounded">
+            @if(registerForm.get('name')?.getError('required')){
+            <p class="m-0">Name is required</p>
+            } @else if (registerForm.get('name')?.getError('minlength')) {
+            <p class="m-0">Name must be at least 3 characters</p>
+            } @else if (registerForm.get('name')?.getError('maxlength')) {
+            <p class="m-0">Name must be less than 20 characters</p>
+            }
+          </div>
+          }
+        </div>
+        <div class="my-2">
+          <label for="email" class="mb-1"
+            >Email: <span class="text-danger">*</span></label
+          >
+          <input
+            type="email"
+            class="form-control"
+            formControlName="email"
+            placeholder="ex:johndoe@.com"
+          />
+        </div>
+        @if(registerForm.get('email')?.errors &&
+        registerForm.get('email')?.touched){
+        <div class="alert alert-danger my-2 p-2 fs-6 fw-bold rounded">
+          @if(registerForm.get('email')?.getError('required')){
+          <p class="m-0">Email is required</p>
+          } @else if (registerForm.get('email')?.getError('email')) {
+          <p class="m-0">Email is not valid</p>
+          }
+        </div>
+        }
+        <div class="my-2">
+          <label for="phone" class="mb-1"
+            >Phone: <span class="text-danger">*</span></label
+          >
+          <input
+            type="tel"
+            class="form-control"
+            formControlName="phone"
+            placeholder="ex: 0123456789"
+          />
+          @if(registerForm.get('phone')?.errors &&
+          registerForm.get('phone')?.touched){
+          <div class="alert alert-danger my-2 p-2 fs-6 fw-bold rounded">
+            @if(registerForm.get('phone')?.getError('required')){
+            <p class="m-0">Phone is required</p>
+            } @else if (registerForm.get('phone')?.getError('pattern')) {
+            <p class="m-0">Phone is not valid</p>
+            }
+          </div>
+          }
+        </div>
+        <div class="my-2">
+          <label for="password" class="mb-1"
+            >Password: <span class="text-danger">*</span></label
+          >
+          <input
+            type="password"
+            class="form-control"
+            formControlName="password"
+            placeholder="ex: 123456"
+          />
+          @if(registerForm.get('password')?.errors &&
+          registerForm.get('password')?.touched){
+          <div class="alert alert-danger my-2 p-2 fs-6 fw-bold rounded">
+            @if(registerForm.get('password')?.getError('required')){
+            <p class="m-0">Password is required</p>
+            } @else if (registerForm.get('password')?.getError('pattern')) {
+            <p class="m-0">Password must be at least 6 characters</p>
+            }
+          </div>
+          }
+        </div>
+        <div class="my-2">
+          <label for="rePassword" class="mb-1"
+            >Confirm Password: <span class="text-danger">*</span></label
+          >
+          <input
+            type="password"
+            class="form-control"
+            formControlName="rePassword"
+            placeholder="ex: 123456"
+          />
+          @if(registerForm.getError('misMatch') &&
+          registerForm.get('rePassword')?.touched){
+          <div class="alert alert-danger my-2 p-2 fs-6 fw-bold rounded">
+            <p class="m-0">Password does not match</p>
+          </div>
+          }
+        </div>
+        <button
+          [disabled]="registerForm.invalid"
+          type="submit"
+          class="btn-main w-25 mx-auto d-block"
+        >
+          Register
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
