@@ -2,6 +2,11 @@
   <div class="container bg-main-light p-5 my-5 rounded shadow-sm">
     <div class="row">
       <h1 class="text-main fs-3 fw-bolder text-center">Register Now</h1>
+      @if(resText) {
+      <p class="alert alert-danger my-2 p-2 fs-6 fw-bold rounded">
+        {{ resText }}
+      </p>
+      }
       <form [formGroup]="registerForm" (ngSubmit)="register()">
         <div class="my-2">
           <label for="name" class="mb-1"
@@ -12,6 +17,16 @@
             class="form-control"
             formControlName="name"
             placeholder="ex: John Doe"
+            [ngClass]="{
+              'is-valid':
+                !registerForm.get('name')?.errors &&
+                (registerForm.get('name')?.touched ||
+                  registerForm.get('name')?.dirty),
+              'is-invalid':
+                registerForm.get('name')?.errors &&
+                (registerForm.get('name')?.touched ||
+                  registerForm.get('name')?.dirty)
+            }"
           />
           @if(registerForm.get('name')?.errors &&
           registerForm.get('name')?.touched){
@@ -35,6 +50,16 @@
             class="form-control"
             formControlName="email"
             placeholder="ex:johndoe@.com"
+            [ngClass]="{
+              'is-valid':
+                !registerForm.get('email')?.errors &&
+                (registerForm.get('email')?.touched ||
+                  registerForm.get('email')?.dirty),
+              'is-invalid':
+                registerForm.get('email')?.errors &&
+                (registerForm.get('email')?.touched ||
+                  registerForm.get('email')?.dirty)
+            }"
           />
         </div>
         @if(registerForm.get('email')?.errors &&
@@ -56,6 +81,16 @@
             class="form-control"
             formControlName="phone"
             placeholder="ex: 0123456789"
+            [ngClass]="{
+              'is-valid':
+                !registerForm.get('phone')?.errors &&
+                (registerForm.get('phone')?.touched ||
+                  registerForm.get('phone')?.dirty),
+              'is-invalid':
+                registerForm.get('phone')?.errors &&
+                (registerForm.get('phone')?.touched ||
+                  registerForm.get('phone')?.dirty)
+            }"
           />
           @if(registerForm.get('phone')?.errors &&
           registerForm.get('phone')?.touched){
@@ -77,6 +112,16 @@
             class="form-control"
             formControlName="password"
             placeholder="ex: 123456"
+            [ngClass]="{
+              'is-valid':
+                !registerForm.get('password')?.errors &&
+                (registerForm.get('password')?.touched ||
+                  registerForm.get('password')?.dirty),
+              'is-invalid':
+                registerForm.get('password')?.errors &&
+                (registerForm.get('password')?.touched ||
+                  registerForm.get('password')?.dirty)
+            }"
           />
           @if(registerForm.get('password')?.errors &&
           registerForm.get('password')?.touched){
@@ -98,6 +143,15 @@
             class="form-control"
             formControlName="rePassword"
             placeholder="ex: 123456"
+            [ngClass]="{
+              'is-valid':
+                !registerForm.getError('misMatch') &&
+                registerForm.get('rePassword')?.touched,
+              'is-invalid':
+                registerForm.getError('misMatch') &&
+                registerForm.get('rePassword')?.touched
+            }"
+            s
           />
           @if(registerForm.getError('misMatch') &&
           registerForm.get('rePassword')?.touched){
@@ -109,9 +163,11 @@
         <button
           [disabled]="registerForm.invalid"
           type="submit"
-          class="btn-main w-25 mx-auto d-block"
+          class="btn-main w-50 mx-auto d-block"
         >
-          Register
+          Register @if(loading){
+          <span><i class="fa-solid fa-circle-notch fa-spin"></i></span>
+          }
         </button>
       </form>
     </div>

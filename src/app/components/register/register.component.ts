@@ -1,3 +1,4 @@
+import { NgClass } from '@angular/common';
 import { Component } from '@angular/core';
 import {
   AbstractControl,
@@ -6,15 +7,20 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { AuthService } from '../../core/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, NgClass],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css',
 })
 export class RegisterComponent {
+  constructor(private __AuthService: AuthService, private __Router: Router) {}
+  loading: boolean = false;
+  resText!: string;
   registerForm: FormGroup = new FormGroup(
     {
       name: new FormControl(null, [
@@ -38,7 +44,28 @@ export class RegisterComponent {
   );
 
   register() {
-    console.log(this.registerForm.value);
+    if (this.registerForm.valid) {
+      this.loading = true;
+      console.log(this.registerForm);
+      // call signup api
+      this.__AuthService.registerUser(this.registerForm.value).subscribe({
+        next: (res) => {
+          this.resText = res.message;
+          this.loading = false;
+          setInterval(() => {
+            this.__Router.navigate(['/auth/login']);
+          }, 2000);
+        },
+        error: (err) => {
+          this.resText = err.error.message;
+          this.loading = false;
+        },
+        complete: () => {},
+      });
+    } else {
+      this.registerForm.setErrors({ misMatch: true });
+      this.registerForm.markAllAsTouched();
+    }
   }
 
   // custom validator
