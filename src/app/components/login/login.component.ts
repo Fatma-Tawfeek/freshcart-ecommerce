@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -8,6 +8,7 @@ import {
 import { AuthService } from '../../core/services/auth.service';
 import { NgClass } from '@angular/common';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -16,9 +17,10 @@ import { Router } from '@angular/router';
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
-export class LoginComponent {
+export class LoginComponent implements OnDestroy {
   loading: boolean = false;
   resText!: string;
+  loginSub!: Subscription;
   constructor(
     private __FormBuildr: FormBuilder,
     private __AuthService: AuthService,
@@ -34,22 +36,28 @@ export class LoginComponent {
     if (this.loginForm.valid) {
       this.loading = true;
       console.log(this.loginForm);
-      this.__AuthService.loginUser(this.loginForm.value).subscribe({
-        next: (res) => {
-          this.resText = res.message;
-          this.loading = false;
-          sessionStorage.setItem('token', res.token);
-          setInterval(() => {
-            this.__Router.navigate(['/main/home']);
-          }, 2000);
-        },
-        error: (err) => {
-          this.resText = err.error.message;
-          this.loading = false;
-        },
-      });
+      this.loginSub = this.__AuthService
+        .loginUser(this.loginForm.value)
+        .subscribe({
+          next: (res) => {
+            this.resText = res.message;
+            this.loading = false;
+            sessionStorage.setItem('token', res.token);
+            setInterval(() => {
+              this.__Router.navigate(['/main/home']);
+            }, 2000);
+          },
+          error: (err) => {
+            this.resText = err.error.message;
+            this.loading = false;
+          },
+        });
     } else {
       this.loginForm.markAllAsTouched();
     }
+  }
+
+  ngOnDestroy(): void {
+    this.loginSub?.unsubscribe();
   }
 }

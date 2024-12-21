@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -9,6 +9,7 @@ import {
 } from '@angular/forms';
 import { AuthService } from '../../core/services/auth.service';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-register',
@@ -17,10 +18,11 @@ import { Router } from '@angular/router';
   templateUrl: './register.component.html',
   styleUrl: './register.component.css',
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnDestroy {
   constructor(private __AuthService: AuthService, private __Router: Router) {}
   loading: boolean = false;
   resText!: string;
+  registerSub!: Subscription;
   registerForm: FormGroup = new FormGroup(
     {
       name: new FormControl(null, [
@@ -48,24 +50,30 @@ export class RegisterComponent {
       this.loading = true;
       console.log(this.registerForm);
       // call signup api
-      this.__AuthService.registerUser(this.registerForm.value).subscribe({
-        next: (res) => {
-          this.resText = res.message;
-          this.loading = false;
-          setInterval(() => {
-            this.__Router.navigate(['/auth/login']);
-          }, 2000);
-        },
-        error: (err) => {
-          this.resText = err.error.message;
-          this.loading = false;
-        },
-        complete: () => {},
-      });
+      this.registerSub = this.__AuthService
+        .registerUser(this.registerForm.value)
+        .subscribe({
+          next: (res) => {
+            this.resText = res.message;
+            this.loading = false;
+            setInterval(() => {
+              this.__Router.navigate(['/auth/login']);
+            }, 2000);
+          },
+          error: (err) => {
+            this.resText = err.error.message;
+            this.loading = false;
+          },
+          complete: () => {},
+        });
     } else {
       this.registerForm.setErrors({ misMatch: true });
       this.registerForm.markAllAsTouched();
     }
+  }
+
+  ngOnDestroy(): void {
+    this.registerSub?.unsubscribe();
   }
 
   // custom validator

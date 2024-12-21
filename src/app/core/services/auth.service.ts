@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../environments/environments';
 
 @Injectable({
   providedIn: 'root',
@@ -10,14 +11,14 @@ export class AuthService {
 
   registerUser(userData: object): Observable<any> {
     return this.__HttpClient.post(
-      'https://ecommerce.routemisr.com/api/v1/auth/signup',
+      `${environment.baseUrl}/api/v1/auth/signup`,
       userData
     );
   }
 
   loginUser(userData: object): Observable<any> {
     return this.__HttpClient.post(
-      'https://ecommerce.routemisr.com/api/v1/auth/signin',
+      `${environment.baseUrl}/api/v1/auth/signin`,
       userData
     );
   }
