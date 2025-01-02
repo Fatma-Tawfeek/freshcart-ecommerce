@@ -10,6 +10,7 @@ import { BrandsComponent } from './components/brands/brands.component';
 import { CategoriesComponent } from './components/categories/categories.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { authGuard } from './core/guards/auth.guard';
+import { ProductDetailsComponent } from './components/product-details/product-details.component';
 
 export const routes: Routes = [
   {
@@ -35,6 +36,11 @@ export const routes: Routes = [
         path: 'categories',
         component: CategoriesComponent,
         title: 'Categories',
+      },
+      {
+        path: 'productDetails/:p_id',
+        component: ProductDetailsComponent,
+        title: 'Product Details',
       },
     ],
   },

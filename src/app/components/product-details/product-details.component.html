@@ -1,0 +1,68 @@
+@if (productDetails) {
+<section class="py-5">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-12 col-md-4 p-2">
+        <owl-carousel-o [options]="customOptions">
+          @for (image of productDetails.images; track $index) {
+          <ng-template carouselSlide>
+            <img [src]="image" class="w-100 rounded" />
+          </ng-template>
+          }
+        </owl-carousel-o>
+      </div>
+      <div class="col-12 col-md-8 px-4">
+        <div class="details">
+          <h2 class="fs-3 fw-bolder my-3">
+            {{ productDetails.title }}
+          </h2>
+
+          <span class="text-main fs-5 fw-bold my-3"
+            >{{ productDetails.price }} EGP</span
+          >
+          <div class="small my-3">
+            @for (star of [1, 2, 3, 4, 5].slice(0,
+            productDetails.ratingsAverage); track $index) {
+            <span><i class="fa-solid fa-star rating-color"></i></span>
+            } @if (productDetails.ratingsAverage % 1 !=0) {
+            <span
+              ><i class="fa-solid fa-star-half-stroke rating-color"></i
+            ></span>
+
+            }
+            <span class="fw-bold ms-1">
+              {{ productDetails.ratingsAverage }}
+            </span>
+          </div>
+          <p class="my-3">{{ productDetails.description }}</p>
+          <div
+            class="d-flex justify-content-between align-items-center py-2 border-bottom border-muted"
+          >
+            <span class="text-main fs-5 fw-bold">Category:</span>
+            <span class="fs-5 fw-bold">
+              {{ productDetails.category.name }}
+            </span>
+          </div>
+          <div
+            class="d-flex justify-content-between align-items-center py-2 border-bottom border-muted"
+          >
+            <span class="text-main fs-5 fw-bold">Quantity:</span>
+            <span class="fs-5 fw-bold">
+              {{ productDetails.quantity }}
+            </span>
+          </div>
+          <div class="d-flex justify-content-between align-items-center py-2">
+            <span class="text-main fs-5 fw-bold">Brand:</span>
+            <span class="fs-5 fw-bold">
+              {{ productDetails.brand.name }}
+            </span>
+          </div>
+          <button class="btn-main w-100 mx-auto d-block my-3">
+            Add To Cart <i class="fa-solid fa-cart-shopping"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+}

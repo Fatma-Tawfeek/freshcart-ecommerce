@@ -5,11 +5,15 @@ import { Subscription } from 'rxjs';
 import { CategoriesService } from '../../core/services/categories.service';
 import { ICategory } from '../../core/interfaces/icategory';
 import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
+import { RouterLink } from '@angular/router';
+import { SlicePipe, UpperCasePipe } from '@angular/common';
+import { SearchPipe } from '../../core/pipes/search.pipe';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CarouselModule],
+  imports: [CarouselModule, RouterLink, UpperCasePipe, SearchPipe, FormsModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
@@ -18,6 +22,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   categories!: ICategory[];
   productSub!: Subscription;
   catSub!: Subscription;
+  searchInput: string = '';
 
   private readonly __ProductService = inject(ProductsService);
   private readonly __CategoriesService = inject(CategoriesService);

@@ -12,4 +12,10 @@ export class ProductsService {
   getProducts(): Observable<any> {
     return this.__HttpClient.get(`${environment.baseUrl}/api/v1/products`);
   }
+
+  getProductDetails(id: string | null): Observable<any> {
+    return this.__HttpClient.get(
+      `${environment.baseUrl}/api/v1/products/${id}`
+    );
+  }
 }
