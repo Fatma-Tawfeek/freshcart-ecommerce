@@ -3,6 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { ProductsService } from '../../core/services/products.service';
 import { IProduct } from '../../core/interfaces/product';
 import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
+import { CartService } from '../../core/services/cart.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-product-details',
@@ -43,8 +45,20 @@ export class ProductDetailsComponent implements OnInit {
   productId!: string | null;
   productDetails: IProduct | null = null;
 
-  constructor(private __ProductService: ProductsService) {}
+  constructor(
+    private __ProductService: ProductsService,
+    private __CarteService: CartService,
+    private __ToastrService: ToastrService
+  ) {}
 
+  addCartItem(p_id: string) {
+    this.__CarteService.addItemToCart(p_id).subscribe({
+      next: (res) => {
+        console.log(res);
+        this.__ToastrService.success(res.message, 'Success');
+      },
+    });
+  }
   ngOnInit(): void {
     this.__ActivatedRoute.paramMap.subscribe({
       next: (pInfo) => {

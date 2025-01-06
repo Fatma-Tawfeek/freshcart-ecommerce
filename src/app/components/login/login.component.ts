@@ -9,6 +9,7 @@ import { AuthService } from '../../core/services/auth.service';
 import { NgClass } from '@angular/common';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { jwtDecode } from 'jwt-decode';
 
 @Component({
   selector: 'app-login',
@@ -43,6 +44,8 @@ export class LoginComponent implements OnDestroy {
             this.resText = res.message;
             this.loading = false;
             sessionStorage.setItem('token', res.token);
+            this.__AuthService.saveDecodedUser();
+
             setInterval(() => {
               this.__Router.navigate(['/main/home']);
             }, 2000);

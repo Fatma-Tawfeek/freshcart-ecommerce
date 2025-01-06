@@ -9,6 +9,8 @@ import { RouterLink } from '@angular/router';
 import { SlicePipe, UpperCasePipe } from '@angular/common';
 import { SearchPipe } from '../../core/pipes/search.pipe';
 import { FormsModule } from '@angular/forms';
+import { CartService } from '../../core/services/cart.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-home',
@@ -26,6 +28,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   private readonly __ProductService = inject(ProductsService);
   private readonly __CategoriesService = inject(CategoriesService);
+  private readonly __CarteService = inject(CartService);
+  private readonly __ToastrService = inject(ToastrService);
 
   categoriesSlider: OwlOptions = {
     loop: true,
@@ -69,6 +73,14 @@ export class HomeComponent implements OnInit, OnDestroy {
     nav: false,
   };
 
+  addCartItem(p_id: string) {
+    this.__CarteService.addItemToCart(p_id).subscribe({
+      next: (res) => {
+        console.log(res);
+        this.__ToastrService.success(res.message, 'Success');
+      },
+    });
+  }
   ngOnInit(): void {
     this.productSub = this.__ProductService.getProducts().subscribe({
       next: (res) => {

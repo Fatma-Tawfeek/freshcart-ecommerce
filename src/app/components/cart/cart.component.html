@@ -1,1 +1,76 @@
-<p>cart works!</p>
+@if(cartData && cartData.products.length > 0) {
+<section class="bg-main-light p-3 my-5 mx-md-5 mx-3 rounded shadow-sm">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h1 class="text-main fs-3 fw-bolder">Cart Items:</h1>
+        <h3 class="fw-bold fs-5">
+          Total Cart Price: {{ cartData.totalCartPrice }} EGP
+        </h3>
+      </div>
+      <div class="col-md-6">
+        <button class="btn-main d-block ms-auto" (click)="clearCart()">
+          <i class="fa-solid fa-trash"></i> Clear Cart
+        </button>
+      </div>
+    </div>
+
+    @for (item of cartData.products; track item.product._id) {
+    <div class="row border-bottom border-muted p-2 align-items-center">
+      <div class="col-md-2 p-2">
+        <div class="item-img">
+          <img
+            src="{{ item.product.imageCover }}"
+            class="w-100 rounded-2"
+            alt=""
+          />
+        </div>
+      </div>
+      <div class="col-md-8 p-2">
+        <div class="item-details">
+          <h3 class="fw-bold fs-5">
+            {{ item.product.title }}
+          </h3>
+          <h3 class="fw-bold fs-5">{{ item.price }} EGP</h3>
+          <span
+            class="text-main fw-bold cursor-pointer"
+            (click)="removeCartItem(item.product._id)"
+            ><i class="fa-solid fa-trash"></i> Remove</span
+          >
+        </div>
+      </div>
+      <div class="col-md-2 p-2">
+        <div
+          class="item-quantity text-main fs-2 d-flex justify-content-between align-items-center"
+        >
+          <span (click)="updateQuantity(item.product._id, item.count + 1)"
+            ><i class="fa-solid fa-circle-plus cursor-pointer"></i
+          ></span>
+
+          <span>{{ item.count }}</span>
+          @if (item.count > 1) {
+          <span (click)="updateQuantity(item.product._id, item.count - 1)"
+            ><i class="fa-solid fa-circle-minus cursor-pointer"></i
+          ></span>
+          }
+        </div>
+      </div>
+    </div>
+    }
+    <button class="btn-main w-75 my-3 d-block mx-auto">
+      Checkout <i class="fa-solid fa-bag-shopping"></i>
+    </button>
+  </div>
+</section>
+} @else {
+<section class="bg-main-light p-3 my-5 mx-md-5 mx-3 rounded shadow-sm">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h1 class="text-main fs-3 fw-bolder">Cart Items:</h1>
+        <h3 class="fw-bold fs-5">No Items In Cart</h3>
+      </div>
+    </div>
+  </div>
+</section>
+}

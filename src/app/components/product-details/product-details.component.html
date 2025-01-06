@@ -57,7 +57,10 @@
               {{ productDetails.brand.name }}
             </span>
           </div>
-          <button class="btn-main w-100 mx-auto d-block my-3">
+          <button
+            class="btn-main w-100 mx-auto d-block my-3"
+            (click)="addCartItem(productDetails._id)"
+          >
             Add To Cart <i class="fa-solid fa-cart-shopping"></i>
           </button>
         </div>

@@ -121,7 +121,10 @@
             </div>
           </div>
 
-          <button class="btn-main w-100 mt-2">
+          <button
+            class="btn-main w-100 mt-2"
+            (click)="addCartItem(product._id)"
+          >
             Add to Cart <i class="fa-solid fa-cart-shopping"></i>
           </button>
         </div>

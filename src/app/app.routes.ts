@@ -13,6 +13,7 @@ import { authGuard } from './core/guards/auth.guard';
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
 
 export const routes: Routes = [
+  { path: '', redirectTo: 'auth', pathMatch: 'full' },
   {
     path: 'auth',
     component: AuthComponent,
