@@ -11,6 +11,9 @@ import { CategoriesComponent } from './components/categories/categories.componen
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { authGuard } from './core/guards/auth.guard';
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
+import { ForgetPasswordComponent } from './components/forget-password/forget-password.component';
+import { ResetCodeComponent } from './components/reset-code/reset-code.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'auth', pathMatch: 'full' },
@@ -21,6 +24,21 @@ export const routes: Routes = [
       { path: '', redirectTo: 'login', pathMatch: 'full' },
       { path: 'login', component: LoginComponent, title: 'Login' },
       { path: 'register', component: RegisterComponent, title: 'Register' },
+      {
+        path: 'forget-password',
+        component: ForgetPasswordComponent,
+        title: 'Forget Password',
+      },
+      {
+        path: 'reset-code',
+        component: ResetCodeComponent,
+        title: 'Reset code',
+      },
+      {
+        path: 'reset-password',
+        component: ResetPasswordComponent,
+        title: 'Reset Password',
+      },
     ],
   },
   {
@@ -48,5 +66,6 @@ export const routes: Routes = [
   {
     path: '**',
     component: NotFoundComponent,
+    title: 'Not Found',
   },
 ];

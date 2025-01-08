@@ -1,1 +1,19 @@
-<p>not-found works!</p>
+@if (token) {
+<app-nav-main></app-nav-main>
+} @else {
+<app-nav-auth></app-nav-auth>
+}
+<section class="p-3 my-5 mx-md-5 mx-3">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <img
+          src="./assets/images/error.svg"
+          alt=""
+          height="400px"
+          class="w-100"
+        />
+      </div>
+    </div>
+  </div>
+</section>

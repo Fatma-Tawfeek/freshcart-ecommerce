@@ -1,51 +1,49 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { AuthService } from '../../core/services/auth.service';
-import { NgClass } from '@angular/common';
-import { Router, RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { AuthService } from '../../core/services/auth.service';
+import { Router } from '@angular/router';
+import { NgClass } from '@angular/common';
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-reset-password',
   standalone: true,
-  imports: [ReactiveFormsModule, NgClass, RouterLink],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.css',
+  imports: [ReactiveFormsModule, NgClass],
+  templateUrl: './reset-password.component.html',
+  styleUrl: './reset-password.component.css',
 })
-export class LoginComponent implements OnDestroy {
+export class ResetPasswordComponent {
   loading: boolean = false;
   resText!: string;
-  loginSub!: Subscription;
+  resetPasswordSub!: Subscription;
   constructor(
     private __FormBuildr: FormBuilder,
     private __AuthService: AuthService,
     private __Router: Router
   ) {}
 
-  loginForm: FormGroup = this.__FormBuildr.group({
+  resetPasswordForm: FormGroup = this.__FormBuildr.group({
     email: [null, [Validators.required, Validators.email]],
-    password: [null, [Validators.required, Validators.pattern(/^\w{6,}$/)]],
+    newPassword: [null, [Validators.required, Validators.pattern(/^\w{6,}$/)]],
   });
 
-  loginUser(): void {
-    if (this.loginForm.valid) {
+  resetPassword(): void {
+    if (this.resetPasswordForm.valid) {
       this.loading = true;
-      this.loginSub = this.__AuthService
-        .loginUser(this.loginForm.value)
+      this.resetPasswordSub = this.__AuthService
+        .resetPassword(this.resetPasswordForm.value)
         .subscribe({
           next: (res) => {
-            this.resText = res.message;
             this.loading = false;
             sessionStorage.setItem('token', res.token);
             this.__AuthService.saveDecodedUser();
-
             setInterval(() => {
-              this.__Router.navigate(['/main/home']);
+              this.__Router.navigate(['/auth/login']);
             }, 2000);
           },
           error: (err) => {
@@ -54,11 +52,11 @@ export class LoginComponent implements OnDestroy {
           },
         });
     } else {
-      this.loginForm.markAllAsTouched();
+      this.resetPasswordForm.markAllAsTouched();
     }
   }
 
   ngOnDestroy(): void {
-    this.loginSub?.unsubscribe();
+    this.resetPasswordSub?.unsubscribe();
   }
 }

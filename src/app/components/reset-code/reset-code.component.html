@@ -1,0 +1,53 @@
+<section>
+  <div class="container bg-main-light p-5 my-5 rounded shadow-sm">
+    <div class="row">
+      <h1 class="text-main fs-3 fw-bolder text-center">Reset Password Code</h1>
+      <p class="text-muted">Enter the code sent to your email</p>
+      @if (errorMsg) {
+      <p class="alert alert-danger my-2 p-2 fs-6 fw-bold rounded">
+        {{ errorMsg }}
+      </p>
+      }
+      <form [formGroup]="resetCodeForm" (ngSubmit)="resetCode()">
+        <div class="my-2">
+          <input
+            type="text"
+            class="form-control"
+            formControlName="resetCode"
+            placeholder="ex: 123456"
+            [ngClass]="{
+              'is-valid':
+                !resetCodeForm.get('code')?.errors &&
+                (resetCodeForm.get('code')?.touched ||
+                  resetCodeForm.get('code')?.dirty),
+              'is-invalid':
+                resetCodeForm.get('code')?.errors &&
+                (resetCodeForm.get('code')?.touched ||
+                  resetCodeForm.get('code')?.dirty)
+            }"
+          />
+        </div>
+        @if(resetCodeForm.get('code')?.errors &&
+        resetCodeForm.get('code')?.touched){
+        <div class="alert alert-danger my-2 p-2 fs-6 fw-bold rounded">
+          @if(resetCodeForm.get('code')?.getError('required')){
+          <p class="m-0">code is required</p>
+          } @else if (resetCodeForm.get('code')?.getError('email')) {
+          <p class="m-0">Email is not valid</p>
+          }
+        </div>
+        }
+
+        <button
+          [disabled]="resetCodeForm.invalid"
+          type="submit"
+          class="btn-main w-50 mx-auto d-block"
+        >
+          Send reset code @if(loading){
+          <span><i class="fa-solid fa-circle-notch fa-spin"></i></span>
+          }
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
