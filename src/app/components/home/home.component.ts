@@ -6,11 +6,13 @@ import { CategoriesService } from '../../core/services/categories.service';
 import { ICategory } from '../../core/interfaces/icategory';
 import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
 import { RouterLink } from '@angular/router';
-import { SlicePipe, UpperCasePipe } from '@angular/common';
+import { UpperCasePipe } from '@angular/common';
 import { SearchPipe } from '../../core/pipes/search.pipe';
 import { FormsModule } from '@angular/forms';
 import { CartService } from '../../core/services/cart.service';
 import { ToastrService } from 'ngx-toastr';
+import { WhishlistService } from '../../core/services/whishlist.service';
+import { IWishlist } from '../../core/interfaces/whishlist';
 
 @Component({
   selector: 'app-home',
@@ -25,11 +27,14 @@ export class HomeComponent implements OnInit, OnDestroy {
   productSub!: Subscription;
   catSub!: Subscription;
   searchInput: string = '';
+  whishlistData!: IWishlist[];
+  whishlistIds!: string[];
 
   private readonly __ProductService = inject(ProductsService);
   private readonly __CategoriesService = inject(CategoriesService);
   private readonly __CarteService = inject(CartService);
   private readonly __ToastrService = inject(ToastrService);
+  private readonly __WhishlistService = inject(WhishlistService);
 
   categoriesSlider: OwlOptions = {
     loop: true,
@@ -73,14 +78,36 @@ export class HomeComponent implements OnInit, OnDestroy {
     nav: false,
   };
 
-  addCartItem(p_id: string) {
+  addCartItem(p_id: string): void {
     this.__CarteService.addItemToCart(p_id).subscribe({
       next: (res) => {
-        console.log(res);
         this.__ToastrService.success(res.message, 'Success');
       },
     });
   }
+
+  addToWishlist(p_id: string) {
+    this.__WhishlistService.addItemToWishlist(p_id).subscribe({
+      next: (res) => {
+        this.__ToastrService.success(res.message, 'Success');
+        this.whishlistIds = res.data;
+      },
+    });
+  }
+
+  removeFromWishlist(p_id: string) {
+    this.__WhishlistService.removeItemFromWishlist(p_id).subscribe({
+      next: (res) => {
+        this.__ToastrService.success(res.message, 'Success');
+        this.whishlistIds = res.data;
+      },
+    });
+  }
+
+  isProductInWishlist(productId: string): boolean {
+    return this.whishlistIds.includes(productId);
+  }
+
   ngOnInit(): void {
     this.productSub = this.__ProductService.getProducts().subscribe({
       next: (res) => {
@@ -94,6 +121,13 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.categories = res.data;
       },
       error: (err) => console.log(err),
+    });
+
+    this.__WhishlistService.getWishlist().subscribe({
+      next: (res) => {
+        this.whishlistData = res.data;
+        this.whishlistIds = this.whishlistData.map((item) => item._id);
+      },
     });
   }
 

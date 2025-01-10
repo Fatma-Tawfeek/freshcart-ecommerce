@@ -14,6 +14,7 @@ import { ProductDetailsComponent } from './components/product-details/product-de
 import { ForgetPasswordComponent } from './components/forget-password/forget-password.component';
 import { ResetCodeComponent } from './components/reset-code/reset-code.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { WhishlistComponent } from './components/whishlist/whishlist.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'auth', pathMatch: 'full' },
@@ -60,6 +61,11 @@ export const routes: Routes = [
         path: 'productDetails/:p_id',
         component: ProductDetailsComponent,
         title: 'Product Details',
+      },
+      {
+        path: 'wishlist',
+        component: WhishlistComponent,
+        title: 'Wishlist',
       },
     ],
   },

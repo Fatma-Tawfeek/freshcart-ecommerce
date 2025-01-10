@@ -60,9 +60,14 @@
           [src]="category.image"
           [alt]="category.name"
           [title]="category.name"
-          class="rounded"
+          class="rounded position-relative"
           height="200px"
         />
+        <div
+          class="position-absolute bottom-0 start-0 w-100 d-flex bg-main text-white p-1 rounded-bottom fw-bold d-flex justify-content-center"
+        >
+          {{ category.name }}
+        </div>
       </ng-template>
       }
     </owl-carousel-o>
@@ -89,7 +94,19 @@
 
       @for (product of products |search: searchInput; track product._id) {
       <div class="col-md-2 col-sm-6">
-        <div class="product p-2 cursor-pointer">
+        <div class="product p-2 cursor-pointer position-relative">
+          @if (isProductInWishlist(product._id)) {
+          <i
+            class="heart-icon fa-solid fa-heart text-main position-absolute p-2 shadow-sm"
+            (click)="removeFromWishlist(product._id)"
+          ></i
+          >} @else {
+          <i
+            class="heart-icon fa-regular fa-heart text-main position-absolute p-2 shadow-sm"
+            (click)="addToWishlist(product._id)"
+          ></i>
+          }
+
           <div [routerLink]="['/main/productDetails', product._id]">
             <img
               [src]="product.imageCover"
