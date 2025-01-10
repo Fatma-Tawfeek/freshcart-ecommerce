@@ -67,6 +67,11 @@ export const routes: Routes = [
         component: WhishlistComponent,
         title: 'Wishlist',
       },
+      {
+        path: 'products',
+        component: ProductsComponent,
+        title: 'Products',
+      },
     ],
   },
   {
