@@ -78,7 +78,7 @@ a:hover {
 .btn-main:hover {
   background-color: #11bd11;
 }
-
+/* 
 .product .btn-main {
   transform: translateY(120%);
   transition: transform 0.3s;
@@ -86,4 +86,4 @@ a:hover {
 
 .product:hover .btn-main {
   transform: translateY(0);
-}
+} */

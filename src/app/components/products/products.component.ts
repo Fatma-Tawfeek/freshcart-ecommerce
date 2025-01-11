@@ -6,7 +6,7 @@ import { ProductsService } from '../../core/services/products.service';
 import { IProduct } from '../../core/interfaces/product';
 import { Subscription } from 'rxjs';
 import { IWishlist } from '../../core/interfaces/whishlist';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { NgClass, UpperCasePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SearchPipe } from '../../core/pipes/search.pipe';
@@ -31,7 +31,8 @@ export class ProductsComponent {
     private __CarteService: CartService,
     private __ProductService: ProductsService,
     private __WhishlistService: WhishlistService,
-    private __ToastrService: ToastrService
+    private __ToastrService: ToastrService,
+    private __ActivatedRoute: ActivatedRoute
   ) {}
   addCartItem(p_id: string): void {
     this.__CarteService.addItemToCart(p_id).subscribe({
