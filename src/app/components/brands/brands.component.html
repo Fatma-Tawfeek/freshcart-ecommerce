@@ -1,1 +1,54 @@
-<p>brands works!</p>
+<section class="py-5">
+  <div class="container">
+    <div class="col-12">
+      <h2 class="text-main fs-3 fw-bolder text-center mb-5">Brands</h2>
+    </div>
+    <div class="row gy-3">
+      @for (brand of brandsData; track brand._id) {
+      <div class="col-md-3">
+        <div class="product">
+          <img
+            [src]="brand.image"
+            [alt]="brand.name"
+            [title]="brand.name"
+            class="rounded-top w-100"
+          />
+          <div
+            class="w-100 d-flex bg-main text-white p-1 fw-bold d-flex justify-content-center"
+          >
+            {{ brand.name }}
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+    <nav aria-label="Page navigation example" class="mt-3">
+      <ul class="pagination">
+        <li
+          class="page-item cursor-pointer"
+          [ngClass]="{ disabled: currentPage == 1 }"
+          (click)="getPageByNumber(currentPage - 1)"
+        >
+          <a class="page-link">Previous</a>
+        </li>
+        @for (page of getPageNumbers(); track $index) {
+        <li
+          class="page-item cursor-pointer"
+          (click)="getPageByNumber(page)"
+          [ngClass]="{ active: currentPage == page }"
+        >
+          <a class="page-link">{{ page }}</a>
+        </li>
+        }
+
+        <li
+          class="page-item cursor-pointer"
+          (click)="getPageByNumber(currentPage + 1)"
+          [ngClass]="{ disabled: currentPage == numOfPages }"
+        >
+          <a class="page-link">Next</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</section>
