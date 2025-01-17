@@ -13,9 +13,27 @@
       </div>
       <div class="col-12 col-md-8 px-4">
         <div class="details">
-          <h2 class="fs-3 fw-bolder my-3">
-            {{ productDetails.title }}
-          </h2>
+          <div class="row justify-content-between">
+            <div class="col-10">
+              <h2 class="fs-3 fw-bolder my-3">
+                {{ productDetails.title }}
+              </h2>
+            </div>
+
+            <div class="col-2 text-end">
+              @if (isProductInWishlist(productDetails._id)) {
+              <i
+                class="heart-icon fa-solid fa-heart fa-2x text-main p-2 shadow-sm bg-white rounded-circle cursor-pointer"
+                (click)="removeFromWishlist(productDetails._id)"
+              ></i
+              >} @else {
+              <i
+                class="heart-icon fa-regular fa-heart fa-2x text-main p-2 shadow-sm bg-white rounded-circle cursor-pointer"
+                (click)="addToWishlist(productDetails._id)"
+              ></i>
+              }
+            </div>
+          </div>
 
           <span class="text-main fs-5 fw-bold my-3"
             >{{ productDetails.price }} EGP</span
