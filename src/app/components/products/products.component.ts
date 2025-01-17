@@ -37,6 +37,7 @@ export class ProductsComponent {
   addCartItem(p_id: string): void {
     this.__CarteService.addItemToCart(p_id).subscribe({
       next: (res) => {
+        this.__CarteService.cartCount.next(res.numOfCartItems);
         this.__ToastrService.success(res.message, 'Success');
       },
     });
