@@ -45,7 +45,7 @@ export class LoginComponent implements OnDestroy {
             this.__AuthService.saveDecodedUser();
 
             setInterval(() => {
-              this.__Router.navigate(['/main/home']);
+              this.__Router.navigate(['/home']);
             }, 2000);
           },
           error: (err) => {

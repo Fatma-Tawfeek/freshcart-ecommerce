@@ -13,6 +13,7 @@ import { CartService } from '../../core/services/cart.service';
 import { ToastrService } from 'ngx-toastr';
 import { WhishlistService } from '../../core/services/whishlist.service';
 import { IWishlist } from '../../core/interfaces/whishlist';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-home',
@@ -35,6 +36,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   private readonly __CarteService = inject(CartService);
   private readonly __ToastrService = inject(ToastrService);
   private readonly __WhishlistService = inject(WhishlistService);
+  private readonly __NgxSpinnerService = inject(NgxSpinnerService);
 
   categoriesSlider: OwlOptions = {
     loop: true,
@@ -81,6 +83,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   addCartItem(p_id: string): void {
     this.__CarteService.addItemToCart(p_id).subscribe({
       next: (res) => {
+        this.__CarteService.cartCount.next(res.numOfCartItems);
         this.__ToastrService.success(res.message, 'Success');
       },
     });

@@ -13,10 +13,24 @@ import { WhishlistService } from '../../core/services/whishlist.service';
   styleUrl: './nav-main.component.css',
 })
 export class NavMainComponent {
-  constructor(private __Router: Router) {}
+  constructor(private __Router: Router, private __CartService: CartService) {}
+
+  cartNumber!: number;
+
+  ngOnInit(): void {
+    this.__CartService.getLoggedUserCart().subscribe({
+      next: (res) => {
+        this.cartNumber = res.numOfCartItems;
+      },
+    });
+
+    this.__CartService.cartCount.subscribe((res) => {
+      this.cartNumber = res;
+    });
+  }
 
   logout(): void {
     sessionStorage.removeItem('token');
-    this.__Router.navigate(['/auth/login']);
+    this.__Router.navigate(['/login']);
   }
 }

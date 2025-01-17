@@ -1,0 +1,77 @@
+<section class="bg-main-light p-3 my-5 mx-md-5 mx-3 rounded shadow-sm">
+  <div class="container">
+    <div class="col-md-12">
+      <h1 class="text-main fs-3 fw-bolder">Checkout :</h1>
+    </div>
+    <form [formGroup]="checkoutForm" (ngSubmit)="payOrder()">
+      <div class="mb-2">
+        <label for="phone">Phone <span class="text-danger">*</span></label>
+        <input
+          type="tel"
+          class="form-control"
+          formControlName="phone"
+          id="phone"
+        />
+        @if(checkoutForm.get('phone')?.errors &&
+        checkoutForm.get('phone')?.touched){
+        <div class="alert alert-danger my-2 p-2 fs-6 fw-bold rounded">
+          @if(checkoutForm.get('phone')?.getError('required')){
+          <p class="m-0">Phone is required</p>
+          } @else if (checkoutForm.get('phone')?.getError('pattern')) {
+          <p class="m-0">Phone is not valid</p>
+          }
+        </div>
+        }
+      </div>
+
+      <div class="mb-2">
+        <label for="address">Address<span class="text-danger">*</span></label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="city"
+          id="address"
+        />
+      </div>
+
+      <div class="mb-2">
+        <label for="details">Details<span class="text-danger">*</span></label>
+        <textarea
+          class="form-control"
+          formControlName="details"
+          rows="4"
+          id="details"
+        ></textarea>
+      </div>
+
+      <div class="mb-2">
+        <label for="address" class="mb-1 fw-bold"
+          >Payment Method:<span class="text-danger">*</span></label
+        >
+
+        <div class="form-check">
+          <input
+            type="radio"
+            class="form-check-input"
+            id="cash"
+            value="cash"
+            formControlName="payment"
+          />
+          <label for="cash" class="form-check-label">Cash on Delivery</label>
+        </div>
+        <div class="form-check">
+          <input
+            type="radio"
+            class="form-check-input"
+            id="card"
+            value="card"
+            formControlName="payment"
+          />
+          <label for="card" class="form-check-label">Credit Card</label>
+        </div>
+      </div>
+
+      <button class="btn-main w-100 mx-auto d-block my-3">Pay</button>
+    </form>
+  </div>
+</section>

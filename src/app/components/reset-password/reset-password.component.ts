@@ -43,7 +43,7 @@ export class ResetPasswordComponent {
             sessionStorage.setItem('token', res.token);
             this.__AuthService.saveDecodedUser();
             setInterval(() => {
-              this.__Router.navigate(['/auth/login']);
+              this.__Router.navigate(['/login']);
             }, 2000);
           },
           error: (err) => {

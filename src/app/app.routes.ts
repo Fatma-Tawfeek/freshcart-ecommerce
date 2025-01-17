@@ -15,11 +15,14 @@ import { ForgetPasswordComponent } from './components/forget-password/forget-pas
 import { ResetCodeComponent } from './components/reset-code/reset-code.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { WhishlistComponent } from './components/whishlist/whishlist.component';
+import { CheckoutComponent } from './components/checkout/checkout.component';
+import { OrdersService } from './core/services/orders.service';
+import { AllOrdersComponent } from './components/all-orders/all-orders.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'auth', pathMatch: 'full' },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
   {
-    path: 'auth',
+    path: '',
     component: AuthComponent,
     children: [
       { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -43,7 +46,7 @@ export const routes: Routes = [
     ],
   },
   {
-    path: 'main',
+    path: '',
     component: MainComponent,
     canActivate: [authGuard],
     children: [
@@ -71,6 +74,16 @@ export const routes: Routes = [
         path: 'products',
         component: ProductsComponent,
         title: 'Products',
+      },
+      {
+        path: 'checkout/:cart_id',
+        component: CheckoutComponent,
+        title: 'Checkout',
+      },
+      {
+        path: 'allorders',
+        component: AllOrdersComponent,
+        title: 'All Orders',
       },
     ],
   },

@@ -1,0 +1,66 @@
+@if(ordersData && ordersData.length > 0) { @for (item of ordersData; track
+$index) {
+<section class="bg-main-light p-3 my-5 mx-md-5 mx-3 rounded shadow-sm">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h1 class="text-main fs-2 fw-bolder">Order:</h1>
+        <h4 class="fw-bold fs-5">
+          Total Order Price:
+          <span class="text-main fw-bold">{{ item.totalOrderPrice }} EGP</span>
+        </h4>
+        <h4 class="fw-bold fs-5">
+          Payment Method:
+          <span class="text-main fw-bold">{{ item.paymentMethodType }}</span>
+        </h4>
+        <h4 class="fw-bold fs-5">
+          Order Date:
+          <span class="text-main fw-bold">{{
+            item.createdAt | date : "medium"
+          }}</span>
+        </h4>
+      </div>
+    </div>
+
+    @for (product of item.cartItems; track product.product._id) {
+    <div class="row border-bottom border-muted p-2 align-items-center">
+      <div class="col-md-2 p-2">
+        <div class="item-img">
+          <img
+            src="{{ product.product.imageCover }}"
+            class="w-75 rounded-2"
+            alt=""
+          />
+        </div>
+      </div>
+      <div class="col-md-8 p-2">
+        <div class="item-details">
+          <h3 class="fw-bold fs-5">
+            {{ product.product.title }}
+          </h3>
+          <h3 class="fw-bold fs-5">{{ product.price }} EGP</h3>
+        </div>
+      </div>
+      <div class="col-md-2 p-2">
+        <div
+          class="item-quantity text-main fs-2 d-flex justify-content-between align-items-center"
+        >
+          <span>Quantity: {{ product.count }}</span>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+</section>
+} } @else {
+<section class="bg-main-light p-3 my-5 mx-md-5 mx-3 rounded shadow-sm">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h1 class="text-main fs-3 fw-bolder">Orders:</h1>
+        <h3 class="fw-bold fs-5">No Orders</h3>
+      </div>
+    </div>
+  </div>
+</section>
+}

@@ -57,7 +57,10 @@
       </div>
     </div>
     }
-    <button class="btn-main w-75 my-3 d-block mx-auto">
+    <button
+      class="btn-main w-75 my-3 d-block mx-auto"
+      [routerLink]="['/checkout', cartData._id]"
+    >
       Checkout <i class="fa-solid fa-bag-shopping"></i>
     </button>
   </div>

@@ -3,11 +3,12 @@ import { CartService } from '../../core/services/cart.service';
 import { Subscription } from 'rxjs';
 import { ICart } from '../../core/interfaces/cart';
 import { ToastrService } from 'ngx-toastr';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css',
 })
@@ -24,6 +25,8 @@ export class CartComponent implements OnInit, OnDestroy {
     this.__CartService.removeItemFromCart(p_id).subscribe({
       next: (res) => {
         this.cartData = res.data;
+        this.__CartService.cartCount.next(res.numOfCartItems);
+        this.__ToastrService.success('Item Removed', 'Success');
       },
       error: (err) => console.log(err),
     });
@@ -52,7 +55,6 @@ export class CartComponent implements OnInit, OnDestroy {
     this.getCartSub = this.__CartService.getLoggedUserCart().subscribe({
       next: (res) => {
         this.cartData = res.data;
-        console.log(this.cartData);
       },
     });
   }

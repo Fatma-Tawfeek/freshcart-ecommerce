@@ -41,7 +41,7 @@ export class ResetCodeComponent {
             this.loading = false;
             console.log(res);
             setInterval(() => {
-              this.__Router.navigate(['/auth/reset-password']);
+              this.__Router.navigate(['/reset-password']);
             }, 2000);
           },
           error: (err) => {

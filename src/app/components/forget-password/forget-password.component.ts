@@ -40,7 +40,7 @@ export class ForgetPasswordComponent {
             this.loading = false;
             console.log(res);
             setInterval(() => {
-              this.__Router.navigate(['/auth/reset-code']);
+              this.__Router.navigate(['/reset-code']);
             }, 2000);
           },
           error: (err) => {

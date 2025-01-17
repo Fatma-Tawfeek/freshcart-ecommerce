@@ -17,21 +17,14 @@ export class WhishlistService {
   }
 
   addItemToWishlist(p_id: string): Observable<any> {
-    return this.__HttpClient.post(
-      `${environment.baseUrl}/api/v1/wishlist`,
-      { productId: p_id },
-      {
-        headers: this.clientToken,
-      }
-    );
+    return this.__HttpClient.post(`${environment.baseUrl}/api/v1/wishlist`, {
+      productId: p_id,
+    });
   }
 
   removeItemFromWishlist(p_id: string): Observable<any> {
     return this.__HttpClient.delete(
-      `${environment.baseUrl}/api/v1/wishlist/${p_id}`,
-      {
-        headers: this.clientToken,
-      }
+      `${environment.baseUrl}/api/v1/wishlist/${p_id}`
     );
   }
 }

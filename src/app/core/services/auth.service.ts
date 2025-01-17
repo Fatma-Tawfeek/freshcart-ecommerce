@@ -10,7 +10,7 @@ import { jwtDecode } from 'jwt-decode';
 export class AuthService {
   constructor(private __HttpClient: HttpClient) {}
 
-  decodedInfo: any;
+  decodedInfo!: any;
 
   registerUser(userData: object): Observable<any> {
     return this.__HttpClient.post(
@@ -29,6 +29,7 @@ export class AuthService {
   saveDecodedUser(): void {
     if (sessionStorage.getItem('token') != null) {
       this.decodedInfo = jwtDecode(sessionStorage.getItem('token')!);
+      console.log(this.decodedInfo);
     }
   }
 
